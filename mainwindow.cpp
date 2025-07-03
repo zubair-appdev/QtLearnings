@@ -119,6 +119,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     qDebug()<<sizeof(void *);
 
+    qDebug()<<"Learn things with fun,enthusiasm and with consistency";
 
 }
 
@@ -168,7 +169,7 @@ QString MainWindow::findStateForPincode(const continent &data, int pincodeToFind
 
                         if (currentPincode == pincodeToFind)
                         {
-                            qDebug() << "\n🎯 Match found! Pincode" << pincodeToFind
+                            qDebug() << "\n Match found! Pincode" << pincodeToFind
                                      << "belongs to State:" << stateName;
                             return stateName;
                         }
@@ -178,7 +179,7 @@ QString MainWindow::findStateForPincode(const continent &data, int pincodeToFind
         }
     }
 
-    qDebug() << "\n❌ Pincode" << pincodeToFind << "not found in data.";
+    qDebug() << "\n Pincode" << pincodeToFind << "not found in data.";
     qDebug() << "=== END PINCODE SEARCH ===";
     return "";
 }

@@ -10,6 +10,9 @@
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 #include <QFutureWatcher>
+#include <QDialog>
+#include <QLabel>
+#include <QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,12 +32,18 @@ public:
         loop.exec();  // Start the event loop and wait for it to quit
     }
 
+    QDialog *createPleaseWaitDialog(const QString &text);
+
 
 
 private slots:
     void on_pushButton_infiniteLopp_clicked();
 
     void on_pushButton_stop_clicked();
+
+    void on_pushButton_createDialog_clicked();
+
+    void on_pushButton_closeDialog_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -50,6 +59,8 @@ private:
     QString findStateForPincode(const continent &data, int pincodeToFind);
 
     bool stop;
+
+    QDialog *dlg;
 
 };
 #endif // MAINWINDOW_H

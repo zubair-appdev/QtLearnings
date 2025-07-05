@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     stop = false;
 
+    dlg = nullptr;
 
     //OR
     // QMap<QString, QMap<QString, QMap<QString, QMap<QString, QMap<QString, int>>>>> myPlace1;
@@ -128,6 +129,34 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+QDialog *MainWindow::createPleaseWaitDialog(const QString &text)
+{
+    // Creation of dialog
+    QDialog *dlg = new QDialog(this);
+
+    // Setting properties and styles to dialog
+    dlg->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+    dlg->setAttribute(Qt::WA_DeleteOnClose); //automatic deletion on close
+    dlg->setModal(false);
+    dlg->setStyleSheet(R"(
+                       QDialog {background-color:#aac5f0; border : 3px solid blue; border-radius : 10px;}
+                       QLabel {font-size:16px; padding : 20px;}
+                       )");
+
+    // Creating a layout
+    QVBoxLayout *layout = new QVBoxLayout(dlg);
+    layout->addWidget(new QLabel(text));
+    dlg->setLayout(layout);
+
+    //Final adjustments
+    dlg->adjustSize(); //size adjusted according to contents
+    dlg->setFixedSize(dlg->sizeHint()); //fixing size
+    dlg->show();
+    QApplication::processEvents();
+
+    return dlg;
+}
+
 QString MainWindow::findStateForPincode(const continent &data, int pincodeToFind)
 {
     qDebug() << "=== BEGIN PINCODE SEARCH ===";
@@ -205,4 +234,29 @@ void MainWindow::on_pushButton_infiniteLopp_clicked()
 void MainWindow::on_pushButton_stop_clicked()
 {
     stop = true;
+}
+
+void MainWindow::on_pushButton_createDialog_clicked()
+{
+    if(dlg)
+    {
+        qDebug()<<"Dialog already present !!!";
+        return;
+    }
+
+
+    QDialog *dlg = createPleaseWaitDialog("⏳ Please wait ...");
+    qDebug()<<dlg<<" :dialog created";
+
+    this->dlg = dlg;
+}
+
+void MainWindow::on_pushButton_closeDialog_clicked()
+{
+    if(dlg)
+    {
+        dlg->close();
+        dlg = nullptr;
+        qDebug()<<dlg<<" :dialog closed";
+    }
 }
